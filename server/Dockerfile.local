@@ -1,0 +1,21 @@
+# BUILD SERVER
+
+FROM golang:1.18-alpine as go-builder
+
+RUN go install github.com/codegangsta/gin@latest
+
+WORKDIR /app
+
+# Install and cache dependencies
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+# Copy remaining files
+COPY . .
+
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+
+EXPOSE 3000
+CMD [ "gin", "-i", "run" ]

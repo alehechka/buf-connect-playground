@@ -3,23 +3,24 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import { GetUserRequest, GetUserResponse } from './user_pb';
-import { MethodKind } from '@bufbuild/protobuf';
+import {GetUserRequest, GetUserResponse} from "./user_pb.js";
+import {MethodKind} from "@bufbuild/protobuf";
 
 /**
  * @generated from service users.v1.UsersService
  */
 export const UsersService = {
-	typeName: 'users.v1.UsersService',
-	methods: {
-		/**
-		 * @generated from rpc users.v1.UsersService.GetUser
-		 */
-		getUser: {
-			name: 'GetUser',
-			I: GetUserRequest,
-			O: GetUserResponse,
-			kind: MethodKind.Unary,
-		},
-	},
+  typeName: "users.v1.UsersService",
+  methods: {
+    /**
+     * @generated from rpc users.v1.UsersService.GetUser
+     */
+    getUser: {
+      name: "GetUser",
+      I: GetUserRequest,
+      O: GetUserResponse,
+      kind: MethodKind.Unary,
+    },
+  }
 } as const;
+

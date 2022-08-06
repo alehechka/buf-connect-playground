@@ -11,7 +11,7 @@ function App() {
 	const client = createPromiseClient(
 		UsersService,
 		createConnectTransport({
-			baseUrl: 'http://localhost:8080',
+			baseUrl: 'http://localhost:3000',
 		})
 	);
 
@@ -26,7 +26,8 @@ function App() {
 		<div>
 			<input value={userId} onChange={(event) => setUserID(event.target.value)} />
 			<button onClick={getUser}>submit</button>
-			{user && <code>{JSON.stringify(user)}</code>}
+			<br />
+			{user && <code style={{ color: 'blue' }}>{JSON.stringify(user)}</code>}
 		</div>
 	);
 }
