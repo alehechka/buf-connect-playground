@@ -1,33 +1,18 @@
-import { useCallback, useState } from 'react';
-import { UsersService } from './proto/gen/users/v1/user_connectweb';
-import { User } from './proto/gen/users/v1/user_pb';
-import { createPromiseClient, createConnectTransport } from '@bufbuild/connect-web';
+import { useState } from 'react';
+import useUser from './proto/hooks/useUser';
 
 function App() {
 	const [userId, setUserID] = useState('');
-
-	const [user, setUser] = useState<User>();
-
-	const client = createPromiseClient(
-		UsersService,
-		createConnectTransport({
-			baseUrl: 'http://localhost:3000',
-		})
-	);
-
-	const getUser = useCallback(() => {
-		client
-			.getUser({ userId })
-			.then((res) => setUser(res.user))
-			.catch(() => setUser(undefined));
-	}, [userId]);
+	const [user, loading, error, fetchUser] = useUser();
 
 	return (
 		<div>
 			<input value={userId} onChange={(event) => setUserID(event.target.value)} />
-			<button onClick={getUser}>submit</button>
+			<button onClick={() => fetchUser(userId)}>submit</button>
 			<br />
+			{loading && <div>loading...</div>}
 			{user && <code style={{ color: 'blue' }}>{JSON.stringify(user)}</code>}
+			{error && <code style={{ color: 'red' }}>{JSON.stringify(error)}</code>}
 		</div>
 	);
 }
