@@ -11,11 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func ListItems(ctx context.Context, numUsers int32, userChan chan<- *users.User, errChan chan<- error) {
+func listItems(ctx context.Context, numUsers int32, userChan chan<- *users.User, errChan chan<- error) {
 	num := int(numUsers)
 
 	for i := 0; i < num; i++ {
-		userChan <- generateUser(strconv.Itoa(gofakeit.Number(1, 9999)))
+		userChan <- GenerateUser(strconv.Itoa(gofakeit.Number(1, 9999)))
 	}
 
 	close(userChan)
@@ -24,13 +24,12 @@ func ListItems(ctx context.Context, numUsers int32, userChan chan<- *users.User,
 }
 
 // ListUsers retrieves a list of Users and sends them via channel
-func listItems(ctx context.Context, numUsers int32, userChan chan<- *users.User, errChan chan<- error) {
+func ListItems(ctx context.Context, numUsers int32, userChan chan<- *users.User, errChan chan<- error) {
 	num := int64(numUsers)
 	cursor, err := userCollection().Find(ctx, bson.M{}, &options.FindOptions{Limit: &num})
 	if err != nil {
 		close(userChan)
 		errChan <- err
-		close(errChan)
 		return
 	}
 	defer cursor.Close(ctx)
@@ -41,7 +40,6 @@ func listItems(ctx context.Context, numUsers int32, userChan chan<- *users.User,
 		if err != nil {
 			close(userChan)
 			errChan <- err
-			close(errChan)
 			return
 		}
 
@@ -49,6 +47,6 @@ func listItems(ctx context.Context, numUsers int32, userChan chan<- *users.User,
 	}
 
 	close(userChan)
-	close(errChan)
+	errChan <- database.EOD
 	return
 }

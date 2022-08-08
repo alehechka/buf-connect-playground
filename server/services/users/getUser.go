@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
+	"github.com/alehechka/buf-connect-playground/services/users/collection"
 	"github.com/alehechka/buf-connect-playground/utils/grpc"
 	connect_go "github.com/bufbuild/connect-go"
 	"go.opentelemetry.io/otel"
@@ -30,7 +31,7 @@ func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetU
 	fmt.Printf("Cookies: \n\t%s\n\t%s\n", grpc.GetCookie(req, "SessionID"), grpc.GetCookie(req, "ContextID"))
 
 	res := connect_go.NewResponse(&users.GetUserResponse{
-		User: generateUser(userID),
+		User: collection.GenerateUser(userID),
 	})
 
 	grpc.AddCookie(res, &http.Cookie{Name: "SessionID", Value: "bababooie", HttpOnly: true})

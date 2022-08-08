@@ -46,7 +46,9 @@ message GenerateUsersRequest {
     int32 numUsers = 1;
 }
 
-message GenerateUsersResponse {}
+message GenerateUsersResponse {
+    int32 numUsers = 1;
+}
 
 message UpdateUserRequest {
     string user_id = 1;

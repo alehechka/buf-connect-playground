@@ -357,6 +357,11 @@ export class GenerateUsersRequest extends Message<GenerateUsersRequest> {
  * @generated from message users.v1.GenerateUsersResponse
  */
 export class GenerateUsersResponse extends Message<GenerateUsersResponse> {
+  /**
+   * @generated from field: int32 numUsers = 1;
+   */
+  numUsers = 0;
+
   constructor(data?: PartialMessage<GenerateUsersResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -365,6 +370,7 @@ export class GenerateUsersResponse extends Message<GenerateUsersResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "users.v1.GenerateUsersResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "numUsers", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GenerateUsersResponse {

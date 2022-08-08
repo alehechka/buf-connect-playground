@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useGenerateUsers from './proto/hooks/useGenerateUsers';
 import useUser from './proto/hooks/useUser';
 import useUsers from './proto/hooks/useUsers';
 
@@ -6,10 +7,11 @@ function App() {
 	const [userId, setUserID] = useState('');
 	const [user, loading, error, fetchUser] = useUser();
 	const [users, usersLoading, usersError, fetchUsers] = useUsers();
+	const [numCreated, genUsersLoading, genUsersError, generateUsers] = useGenerateUsers();
 
 	return (
 		<div>
-			<section>
+			<section style={{ padding: '10px', borderStyle: 'solid', marginBottom: '10px' }}>
 				<input value={userId} onChange={(event) => setUserID(event.target.value)} />
 				<button onClick={() => fetchUser(userId)}>submit</button>
 				<br />
@@ -29,7 +31,7 @@ function App() {
 				)}
 				{error && <code style={{ color: 'red' }}>{JSON.stringify(error)}</code>}
 			</section>
-			<section>
+			<section style={{ padding: '10px', borderStyle: 'solid', marginBottom: '10px' }}>
 				<button onClick={() => fetchUsers(10)}>retrieve users</button>
 				{usersLoading && <div>loading...</div>}
 				{users.length > 0 && (
@@ -42,6 +44,12 @@ function App() {
 					</ol>
 				)}
 				{usersError && <code style={{ color: 'red' }}>{JSON.stringify(usersError)}</code>}
+			</section>
+			<section style={{ padding: '10px', borderStyle: 'solid', marginBottom: '10px' }}>
+				<button onClick={() => generateUsers(10)}>generate users</button>
+				{genUsersLoading && <div>loading...</div>}
+				{numCreated !== undefined && <p>generated {numCreated} users</p>}
+				{genUsersError && <code style={{ color: 'red' }}>{JSON.stringify(genUsersError)}</code>}
 			</section>
 		</div>
 	);

@@ -6,16 +6,23 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 )
 
-func generateUser(userID string) *users.User {
+func GenerateUser(userID string) *users.User {
+	user := GenerateNewUser()
+	user.UserId = userID
+	return user
+}
+
+func GenerateNewUser() *users.User {
+	birthday := gofakeit.Date()
+
 	return &users.User{
-		UserId:    userID,
 		FirstName: gofakeit.FirstName(),
 		LastName:  gofakeit.LastName(),
 		Gender:    users.Gender(gofakeit.Number(1, 2)),
 		Birthday: &_type.Date{
-			Month: int32(gofakeit.Number(0, 12)),
-			Day:   int32(gofakeit.Number(0, 28)),
-			Year:  int32(gofakeit.Number(1940, 2022)),
+			Month: int32(birthday.Month()),
+			Day:   int32(birthday.Day()),
+			Year:  int32(birthday.Year()),
 		},
 	}
 }
