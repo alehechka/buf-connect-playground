@@ -11,7 +11,7 @@ import (
 	connect_go "github.com/bufbuild/connect-go"
 )
 
-func (s *server) ListUsers(ctx context.Context, req *connect_go.Request[users.ListUsersRequest], stream *connect_go.ServerStream[users.GetUserResponse]) error {
+func (s *server) ListUsers(ctx context.Context, req *connect_go.Request[users.ListUsersRequest], stream *connect_go.ServerStream[users.ListUsersResponse]) error {
 	numUsers := req.Msg.GetNumUsers()
 	fmt.Printf("Got request for %d users\n", numUsers)
 
@@ -22,7 +22,7 @@ func (s *server) ListUsers(ctx context.Context, req *connect_go.Request[users.Li
 
 	go func() {
 		for user := range userChan {
-			if err := stream.Send(&users.GetUserResponse{User: user}); err != nil {
+			if err := stream.Send(&users.ListUsersResponse{User: user}); err != nil {
 				errChan <- err
 			}
 		}

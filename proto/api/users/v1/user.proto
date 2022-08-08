@@ -30,7 +30,44 @@ message ListUsersRequest {
     int32 numUsers = 1;
 }
 
+message ListUsersResponse {
+    User user = 1;
+}
+
+message CreateUserRequest {
+    User user = 1;
+}
+
+message CreateUserResponse {
+    User user = 1;
+}
+
+message GenerateUsersRequest {
+    int32 numUsers = 1;
+}
+
+message GenerateUsersResponse {}
+
+message UpdateUserRequest {
+    string user_id = 1;
+    User user = 2;
+}
+
+message UpdateUserResponse {
+    User user = 1;
+}
+
+message DeleteUserRequest {
+    string user_id = 1;
+}
+
+message DeleteUserResponse {}
+
 service UsersService {
     rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
-    rpc ListUsers(ListUsersRequest) returns (stream GetUserResponse) {}
+    rpc ListUsers(ListUsersRequest) returns (stream ListUsersResponse) {}
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+    rpc GenerateUsers(GenerateUsersRequest) returns (GenerateUsersResponse) {}
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
 }
