@@ -26,11 +26,11 @@ message GetUserResponse {
     User user = 1;
 }
 
-message GetUsersRequest {
+message ListUsersRequest {
     int32 numUsers = 1;
 }
 
 service UsersService {
     rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
-    rpc GetUsers(GetUsersRequest) returns (stream GetUserResponse) {}
+    rpc ListUsers(ListUsersRequest) returns (stream GetUserResponse) {}
 }

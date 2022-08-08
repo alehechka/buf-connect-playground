@@ -12,6 +12,9 @@ import (
 
 	"github.com/alehechka/buf-connect-playground/proto/gen/users/v1/usersv1connect"
 	"github.com/alehechka/buf-connect-playground/services/users"
+	"github.com/alehechka/buf-connect-playground/utils"
+	"github.com/alehechka/buf-connect-playground/utils/database"
+	"github.com/alehechka/buf-connect-playground/utils/otel"
 	"github.com/bufbuild/connect-go"
 	"github.com/rs/cors"
 	"golang.org/x/net/http2"
@@ -19,6 +22,14 @@ import (
 )
 
 func main() {
+	shutdownTracer, err := otel.InitializeOpenTelTracer()
+	utils.Check(err)
+	defer shutdownTracer()
+
+	disconnect, err := database.InitializeMongoDB(os.Getenv("MONGODB_CONNECTION_STRING"), "users")
+	utils.Check(err)
+	defer disconnect()
+
 	mux := http.NewServeMux()
 
 	compress1KB := connect.WithCompressMinBytes(1024)

@@ -28,7 +28,7 @@ const (
 // UsersServiceClient is a client for the users.v1.UsersService service.
 type UsersServiceClient interface {
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
-	GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest]) (*connect_go.ServerStreamForClient[v1.GetUserResponse], error)
+	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest]) (*connect_go.ServerStreamForClient[v1.GetUserResponse], error)
 }
 
 // NewUsersServiceClient constructs a client for the users.v1.UsersService service. By default, it
@@ -46,9 +46,9 @@ func NewUsersServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 			baseURL+"/users.v1.UsersService/GetUser",
 			opts...,
 		),
-		getUsers: connect_go.NewClient[v1.GetUsersRequest, v1.GetUserResponse](
+		listUsers: connect_go.NewClient[v1.ListUsersRequest, v1.GetUserResponse](
 			httpClient,
-			baseURL+"/users.v1.UsersService/GetUsers",
+			baseURL+"/users.v1.UsersService/ListUsers",
 			opts...,
 		),
 	}
@@ -56,8 +56,8 @@ func NewUsersServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 
 // usersServiceClient implements UsersServiceClient.
 type usersServiceClient struct {
-	getUser  *connect_go.Client[v1.GetUserRequest, v1.GetUserResponse]
-	getUsers *connect_go.Client[v1.GetUsersRequest, v1.GetUserResponse]
+	getUser   *connect_go.Client[v1.GetUserRequest, v1.GetUserResponse]
+	listUsers *connect_go.Client[v1.ListUsersRequest, v1.GetUserResponse]
 }
 
 // GetUser calls users.v1.UsersService.GetUser.
@@ -65,15 +65,15 @@ func (c *usersServiceClient) GetUser(ctx context.Context, req *connect_go.Reques
 	return c.getUser.CallUnary(ctx, req)
 }
 
-// GetUsers calls users.v1.UsersService.GetUsers.
-func (c *usersServiceClient) GetUsers(ctx context.Context, req *connect_go.Request[v1.GetUsersRequest]) (*connect_go.ServerStreamForClient[v1.GetUserResponse], error) {
-	return c.getUsers.CallServerStream(ctx, req)
+// ListUsers calls users.v1.UsersService.ListUsers.
+func (c *usersServiceClient) ListUsers(ctx context.Context, req *connect_go.Request[v1.ListUsersRequest]) (*connect_go.ServerStreamForClient[v1.GetUserResponse], error) {
+	return c.listUsers.CallServerStream(ctx, req)
 }
 
 // UsersServiceHandler is an implementation of the users.v1.UsersService service.
 type UsersServiceHandler interface {
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
-	GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest], *connect_go.ServerStream[v1.GetUserResponse]) error
+	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest], *connect_go.ServerStream[v1.GetUserResponse]) error
 }
 
 // NewUsersServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -88,9 +88,9 @@ func NewUsersServiceHandler(svc UsersServiceHandler, opts ...connect_go.HandlerO
 		svc.GetUser,
 		opts...,
 	))
-	mux.Handle("/users.v1.UsersService/GetUsers", connect_go.NewServerStreamHandler(
-		"/users.v1.UsersService/GetUsers",
-		svc.GetUsers,
+	mux.Handle("/users.v1.UsersService/ListUsers", connect_go.NewServerStreamHandler(
+		"/users.v1.UsersService/ListUsers",
+		svc.ListUsers,
 		opts...,
 	))
 	return "/users.v1.UsersService/", mux
@@ -103,6 +103,6 @@ func (UnimplementedUsersServiceHandler) GetUser(context.Context, *connect_go.Req
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("users.v1.UsersService.GetUser is not implemented"))
 }
 
-func (UnimplementedUsersServiceHandler) GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest], *connect_go.ServerStream[v1.GetUserResponse]) error {
-	return connect_go.NewError(connect_go.CodeUnimplemented, errors.New("users.v1.UsersService.GetUsers is not implemented"))
+func (UnimplementedUsersServiceHandler) ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest], *connect_go.ServerStream[v1.GetUserResponse]) error {
+	return connect_go.NewError(connect_go.CodeUnimplemented, errors.New("users.v1.UsersService.ListUsers is not implemented"))
 }
