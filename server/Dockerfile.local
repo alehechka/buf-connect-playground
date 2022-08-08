@@ -1,6 +1,6 @@
 # BUILD SERVER
 
-FROM golang:1.18-alpine as go-builder
+FROM golang:1.19-alpine as go-builder
 
 RUN go install github.com/codegangsta/gin@latest
 

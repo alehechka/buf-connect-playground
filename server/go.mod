@@ -3,6 +3,7 @@ module github.com/alehechka/buf-connect-playground
 go 1.19
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.18.0
 	github.com/bufbuild/connect-go v0.3.0
 	github.com/rs/cors v1.8.2
 	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48

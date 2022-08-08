@@ -168,3 +168,40 @@ export class GetUserResponse extends Message<GetUserResponse> {
   }
 }
 
+/**
+ * @generated from message users.v1.GetUsersRequest
+ */
+export class GetUsersRequest extends Message<GetUsersRequest> {
+  /**
+   * @generated from field: int32 numUsers = 1;
+   */
+  numUsers = 0;
+
+  constructor(data?: PartialMessage<GetUsersRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "users.v1.GetUsersRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "numUsers", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUsersRequest {
+    return new GetUsersRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUsersRequest {
+    return new GetUsersRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUsersRequest {
+    return new GetUsersRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUsersRequest | PlainMessage<GetUsersRequest> | undefined, b: GetUsersRequest | PlainMessage<GetUsersRequest> | undefined): boolean {
+    return proto3.util.equals(GetUsersRequest, a, b);
+  }
+}
+

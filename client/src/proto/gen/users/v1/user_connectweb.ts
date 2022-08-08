@@ -3,7 +3,7 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {GetUserRequest, GetUserResponse} from "./user_pb.js";
+import {GetUserRequest, GetUserResponse, GetUsersRequest} from "./user_pb.js";
 import {MethodKind} from "@bufbuild/protobuf";
 
 /**
@@ -20,6 +20,15 @@ export const UsersService = {
       I: GetUserRequest,
       O: GetUserResponse,
       kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc users.v1.UsersService.GetUsers
+     */
+    getUsers: {
+      name: "GetUsers",
+      I: GetUsersRequest,
+      O: GetUserResponse,
+      kind: MethodKind.ServerStreaming,
     },
   }
 } as const;
