@@ -1,7 +1,7 @@
 import { User } from '../gen/users/v1/user_pb';
 import { userClient } from '../client';
 import { useCallback, useState } from 'react';
-import useError from './userError';
+import useError from './useError';
 
 const useUser = () => {
 	const [loading, setLoading] = useState(false);

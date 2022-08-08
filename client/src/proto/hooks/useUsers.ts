@@ -1,7 +1,7 @@
 import { ListUsersRequest, User } from '../gen/users/v1/user_pb';
 import { userClient } from '../client';
 import { useCallback, useState } from 'react';
-import useError, { ProtoError } from './userError';
+import useError, { ProtoError } from './useError';
 
 const useUsers = (append?: boolean) => {
 	const [loading, setLoading] = useState(false);
