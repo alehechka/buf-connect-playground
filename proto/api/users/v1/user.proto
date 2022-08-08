@@ -27,7 +27,8 @@ message GetUserResponse {
 }
 
 message ListUsersRequest {
-    int32 numUsers = 1;
+    int64 numUsers = 1;
+    int64 page = 2;
 }
 
 message ListUsersResponse {

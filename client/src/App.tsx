@@ -6,7 +6,7 @@ import useUsers from './proto/hooks/useUsers';
 function App() {
 	const [userId, setUserID] = useState('');
 	const [user, loading, error, fetchUser] = useUser();
-	const [users, usersLoading, usersError, fetchUsers] = useUsers();
+	const [users, usersLoading, usersError, fetchUsers, disabled] = useUsers(true);
 	const [numCreated, genUsersLoading, genUsersError, generateUsers] = useGenerateUsers();
 
 	return (
@@ -32,7 +32,9 @@ function App() {
 				{error && <code style={{ color: 'red' }}>{JSON.stringify(error)}</code>}
 			</section>
 			<section style={{ padding: '10px', borderStyle: 'solid', marginBottom: '10px' }}>
-				<button onClick={() => fetchUsers(10)}>retrieve users</button>
+				<button onClick={() => fetchUsers(9n)} disabled={disabled}>
+					retrieve users
+				</button>
 				{usersLoading && <div>loading...</div>}
 				{users.length > 0 && (
 					<ol>

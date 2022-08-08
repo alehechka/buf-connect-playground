@@ -24,9 +24,10 @@ func listItems(ctx context.Context, numUsers int32, userChan chan<- *users.User,
 }
 
 // ListUsers retrieves a list of Users and sends them via channel
-func ListItems(ctx context.Context, numUsers int32, userChan chan<- *users.User, errChan chan<- error) {
-	num := int64(numUsers)
-	cursor, err := userCollection().Find(ctx, bson.M{}, &options.FindOptions{Limit: &num})
+func ListItems(ctx context.Context, numUsers int64, page int64, userChan chan<- *users.User, errChan chan<- error) {
+	skip := numUsers * page
+
+	cursor, err := userCollection().Find(ctx, bson.M{}, &options.FindOptions{Limit: &numUsers, Skip: &skip})
 	if err != nil {
 		close(userChan)
 		errChan <- err

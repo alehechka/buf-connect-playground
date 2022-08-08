@@ -4,7 +4,7 @@
 /* @ts-nocheck */
 
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
-import {Message, proto3} from "@bufbuild/protobuf";
+import {Message, proto3, protoInt64} from "@bufbuild/protobuf";
 import {Date} from "../../google/type/date_pb.js";
 
 /**
@@ -173,9 +173,14 @@ export class GetUserResponse extends Message<GetUserResponse> {
  */
 export class ListUsersRequest extends Message<ListUsersRequest> {
   /**
-   * @generated from field: int32 numUsers = 1;
+   * @generated from field: int64 numUsers = 1;
    */
-  numUsers = 0;
+  numUsers = protoInt64.zero;
+
+  /**
+   * @generated from field: int64 page = 2;
+   */
+  page = protoInt64.zero;
 
   constructor(data?: PartialMessage<ListUsersRequest>) {
     super();
@@ -185,7 +190,8 @@ export class ListUsersRequest extends Message<ListUsersRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "users.v1.ListUsersRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "numUsers", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 1, name: "numUsers", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 2, name: "page", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListUsersRequest {

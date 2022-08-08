@@ -13,12 +13,13 @@ import (
 
 func (s *server) ListUsers(ctx context.Context, req *connect_go.Request[users.ListUsersRequest], stream *connect_go.ServerStream[users.ListUsersResponse]) error {
 	numUsers := req.Msg.GetNumUsers()
-	fmt.Printf("Got request for %d users\n", numUsers)
+	page := req.Msg.GetPage()
+	fmt.Printf("Got request for %d users on page %d\n", numUsers, page)
 
 	userChan := make(chan *users.User)
 	errChan := make(chan error, 1)
 
-	go collection.ListItems(ctx, numUsers, userChan, errChan)
+	go collection.ListItems(ctx, numUsers, page, userChan, errChan)
 
 	go func() {
 		for user := range userChan {
