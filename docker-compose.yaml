@@ -20,6 +20,7 @@ services:
     environment:
       MONGODB_CONNECTION_STRING: 'mongodb://mongo:27017/'
       OTEL_EXPORTER_OTLP_ENDPOINT: 'http://otel-collector:4317'
+      OTEL_SERVICE_NAME: buf-connect-playground/server
     ports:
       - 3000:3001
     volumes:
@@ -49,6 +50,8 @@ services:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     networks:
       - backend
+    env_file:
+      - .secret.env
 
 networks:
   database:

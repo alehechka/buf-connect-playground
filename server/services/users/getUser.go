@@ -10,10 +10,16 @@ import (
 	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
 	"github.com/alehechka/buf-connect-playground/utils/grpc"
 	connect_go "github.com/bufbuild/connect-go"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetUserRequest]) (*connect_go.Response[users.GetUserResponse], error) {
+	ctx, span := otel.Tracer("grpc-server").Start(ctx, "GetUser")
+	defer span.End()
+
 	userID := req.Msg.GetUserId()
+	span.SetAttributes(attribute.String("userID", userID))
 
 	if len(userID) == 0 {
 		return nil, connect_go.NewError(connect_go.CodeInvalidArgument, errors.New("no userID provided"))

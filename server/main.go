@@ -11,6 +11,7 @@ import (
 	"github.com/alehechka/buf-connect-playground/utils/database"
 	"github.com/alehechka/buf-connect-playground/utils/grpc"
 	"github.com/alehechka/buf-connect-playground/utils/otel"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -28,7 +29,7 @@ func main() {
 	api.Handle(usersv1connect.NewUsersServiceHandler(users.NewServer()))
 
 	mux := http.NewServeMux()
-	mux.Handle("/api/", http.StripPrefix("/api", api))
+	mux.Handle("/api/", otelhttp.NewHandler(http.StripPrefix("/api", api), "grpc", otelhttp.WithTracerProvider(otel.OpenTelTracer)))
 
 	listenOn := ":" + os.Getenv("PORT")
 	fmt.Println("Listening on ", listenOn)
