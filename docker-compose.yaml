@@ -32,6 +32,8 @@ services:
     container_name: client
     depends_on:
       - server
+    networks:
+      - backend
     ports:
       - 8080:8080
     volumes:

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -26,5 +27,10 @@ func main() {
 	api := http.NewServeMux()
 	api.Handle(usersv1connect.NewUsersServiceHandler(users.NewServer()))
 
-	http.ListenAndServe(":"+os.Getenv("PORT"), h2c.NewHandler(grpc.NewCORS().Handler(api), &http2.Server{}))
+	mux := http.NewServeMux()
+	mux.Handle("/api/", http.StripPrefix("/api", api))
+
+	listenOn := ":" + os.Getenv("PORT")
+	fmt.Println("Listening on ", listenOn)
+	http.ListenAndServe(listenOn, h2c.NewHandler(grpc.NewCORS().Handler(mux), &http2.Server{}))
 }
