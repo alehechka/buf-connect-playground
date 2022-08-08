@@ -5,8 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
 
 	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
+	"github.com/alehechka/buf-connect-playground/utils/grpc"
 	connect_go "github.com/bufbuild/connect-go"
 )
 
@@ -19,15 +21,14 @@ func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetU
 
 	log.Printf("Recieved request for user with ID: %s", userID)
 
-	fmt.Println("Request Headers: ", req.Header())
-	fmt.Printf("Request Spec: %#v\n", req.Spec())
+	fmt.Printf("Cookies: \n\t%s\n\t%s\n", grpc.GetCookie(req, "SessionID"), grpc.GetCookie(req, "ContextID"))
 
 	res := connect_go.NewResponse(&users.GetUserResponse{
 		User: generateUser(userID),
 	})
 
-	fmt.Println("Response Headers: ", res.Header())
-	fmt.Println("Response Trailer: ", res.Trailer())
+	grpc.AddCookie(res, &http.Cookie{Name: "SessionID", Value: "bababooie", HttpOnly: true})
+	grpc.AddCookie(res, &http.Cookie{Name: "ContextID", Value: "booboobaie", HttpOnly: true})
 
 	return res, nil
 }
