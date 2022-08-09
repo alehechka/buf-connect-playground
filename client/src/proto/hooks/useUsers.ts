@@ -8,12 +8,16 @@ const useUsers = (append?: boolean) => {
 	const [users, setUsers] = useState<User[]>([]);
 	const [error, setError] = useError();
 	const [page, setPage] = useState<bigint>(0n);
-	const [disabled, setDisabled] = useState<boolean>(false);
+	const [prevCount, setPrevCount] = useState<number>(0);
 
 	const fetchUsers = useCallback(
 		async (numUsers: bigint) => {
 			setLoading(true);
-			if (!append) setUsers([]);
+			if (!append) {
+				setUsers([]);
+			} else {
+				setUsers((prev) => prev.slice(0, prev.length - prevCount));
+			}
 			setError(undefined);
 
 			const request = new ListUsersRequest({ numUsers: BigInt(numUsers), page });
@@ -30,16 +34,23 @@ const useUsers = (append?: boolean) => {
 			}
 
 			setLoading(false);
-			if (count >= numUsers) {
+			if (count >= numUsers && numUsers > 0n) {
 				setPage((prev) => prev + 1n);
+				setPrevCount(0);
 			} else {
-				setDisabled(true);
+				setPrevCount(count);
 			}
 		},
-		[page]
+		[page, prevCount]
 	);
 
-	return [users, loading, error, fetchUsers, disabled] as const;
+	const clearUsers = useCallback(() => {
+		setUsers([]);
+		setPage(0n);
+		setPrevCount(0);
+	}, []);
+
+	return [users, loading, error, fetchUsers, clearUsers] as const;
 };
 
 export default useUsers;
