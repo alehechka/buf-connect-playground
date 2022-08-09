@@ -11,7 +11,7 @@ const GetUser = (props: Props) => {
 	return (
 		<Box>
 			<input value={userId} onChange={(event) => setUserID(event.target.value)} />
-			<button onClick={() => fetchUser(userId)}>submit</button>
+			<button onClick={() => fetchUser(userId)}>get user</button>
 			<br />
 			{loading && <div>loading...</div>}
 			{user && (
@@ -27,7 +27,11 @@ const GetUser = (props: Props) => {
 					)}
 				</div>
 			)}
-			{error && <code style={{ color: 'red' }}>{JSON.stringify(error)}</code>}
+			{error && (
+				<div>
+					<code style={{ color: 'red' }}>{JSON.stringify(error)}</code>
+				</div>
+			)}
 		</Box>
 	);
 };

@@ -26,7 +26,11 @@ const GetUsers = (props: Props) => {
 					))}
 				</ol>
 			)}
-			{usersError && <code style={{ color: 'red' }}>{JSON.stringify(usersError)}</code>}
+			{usersError && (
+				<div>
+					<code style={{ color: 'red' }}>{JSON.stringify(usersError)}</code>
+				</div>
+			)}
 		</Box>
 	);
 };

@@ -14,7 +14,11 @@ const GenerateUsers = (props: Props) => {
 			<button onClick={() => generateUsers(numUsers)}>generate users</button>
 			{genUsersLoading && <div>loading...</div>}
 			{numCreated !== undefined && <p>generated {numCreated} users</p>}
-			{genUsersError && <code style={{ color: 'red' }}>{JSON.stringify(genUsersError)}</code>}
+			{genUsersError && (
+				<div>
+					<code style={{ color: 'red' }}>{JSON.stringify(genUsersError)}</code>
+				</div>
+			)}
 		</Box>
 	);
 };
