@@ -3,7 +3,7 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {CreateUserRequest, CreateUserResponse, DeleteUserRequest, DeleteUserResponse, GenerateUsersRequest, GenerateUsersResponse, GetUserRequest, GetUserResponse, ListUsersRequest, ListUsersResponse, UpdateUserRequest, UpdateUserResponse} from "./user_pb.js";
+import {CreateUserRequest, CreateUserResponse, DeleteAllUsersRequest, DeleteAllUsersResponse, DeleteUserRequest, DeleteUserResponse, GenerateUsersRequest, GenerateUsersResponse, GetUserRequest, GetUserResponse, ListUsersRequest, ListUsersResponse, UpdateUserRequest, UpdateUserResponse} from "./user_pb.js";
 import {MethodKind} from "@bufbuild/protobuf";
 
 /**
@@ -64,6 +64,15 @@ export const UsersService = {
       name: "DeleteUser",
       I: DeleteUserRequest,
       O: DeleteUserResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc users.v1.UsersService.DeleteAllUsers
+     */
+    deleteAllUsers: {
+      name: "DeleteAllUsers",
+      I: DeleteAllUsersRequest,
+      O: DeleteAllUsersResponse,
       kind: MethodKind.Unary,
     },
   }

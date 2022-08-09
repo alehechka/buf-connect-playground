@@ -173,7 +173,7 @@ export class GetUserResponse extends Message<GetUserResponse> {
  */
 export class ListUsersRequest extends Message<ListUsersRequest> {
   /**
-   * @generated from field: int64 numUsers = 1;
+   * @generated from field: int64 num_users = 1;
    */
   numUsers = protoInt64.zero;
 
@@ -190,7 +190,7 @@ export class ListUsersRequest extends Message<ListUsersRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "users.v1.ListUsersRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "numUsers", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
+    { no: 1, name: "num_users", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
     { no: 2, name: "page", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
   ]);
 
@@ -327,7 +327,7 @@ export class CreateUserResponse extends Message<CreateUserResponse> {
  */
 export class GenerateUsersRequest extends Message<GenerateUsersRequest> {
   /**
-   * @generated from field: int32 numUsers = 1;
+   * @generated from field: int32 num_users = 1;
    */
   numUsers = 0;
 
@@ -339,7 +339,7 @@ export class GenerateUsersRequest extends Message<GenerateUsersRequest> {
   static readonly runtime = proto3;
   static readonly typeName = "users.v1.GenerateUsersRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "numUsers", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 1, name: "num_users", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GenerateUsersRequest {
@@ -364,7 +364,7 @@ export class GenerateUsersRequest extends Message<GenerateUsersRequest> {
  */
 export class GenerateUsersResponse extends Message<GenerateUsersResponse> {
   /**
-   * @generated from field: int32 numUsers = 1;
+   * @generated from field: int32 num_users = 1;
    */
   numUsers = 0;
 
@@ -376,7 +376,7 @@ export class GenerateUsersResponse extends Message<GenerateUsersResponse> {
   static readonly runtime = proto3;
   static readonly typeName = "users.v1.GenerateUsersResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "numUsers", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 1, name: "num_users", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GenerateUsersResponse {
@@ -541,6 +541,74 @@ export class DeleteUserResponse extends Message<DeleteUserResponse> {
 
   static equals(a: DeleteUserResponse | PlainMessage<DeleteUserResponse> | undefined, b: DeleteUserResponse | PlainMessage<DeleteUserResponse> | undefined): boolean {
     return proto3.util.equals(DeleteUserResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message users.v1.DeleteAllUsersRequest
+ */
+export class DeleteAllUsersRequest extends Message<DeleteAllUsersRequest> {
+  constructor(data?: PartialMessage<DeleteAllUsersRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "users.v1.DeleteAllUsersRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteAllUsersRequest {
+    return new DeleteAllUsersRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteAllUsersRequest {
+    return new DeleteAllUsersRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteAllUsersRequest {
+    return new DeleteAllUsersRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteAllUsersRequest | PlainMessage<DeleteAllUsersRequest> | undefined, b: DeleteAllUsersRequest | PlainMessage<DeleteAllUsersRequest> | undefined): boolean {
+    return proto3.util.equals(DeleteAllUsersRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message users.v1.DeleteAllUsersResponse
+ */
+export class DeleteAllUsersResponse extends Message<DeleteAllUsersResponse> {
+  /**
+   * @generated from field: int32 num_users = 1;
+   */
+  numUsers = 0;
+
+  constructor(data?: PartialMessage<DeleteAllUsersResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime = proto3;
+  static readonly typeName = "users.v1.DeleteAllUsersResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "num_users", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DeleteAllUsersResponse {
+    return new DeleteAllUsersResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DeleteAllUsersResponse {
+    return new DeleteAllUsersResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DeleteAllUsersResponse {
+    return new DeleteAllUsersResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DeleteAllUsersResponse | PlainMessage<DeleteAllUsersResponse> | undefined, b: DeleteAllUsersResponse | PlainMessage<DeleteAllUsersResponse> | undefined): boolean {
+    return proto3.util.equals(DeleteAllUsersResponse, a, b);
   }
 }
 

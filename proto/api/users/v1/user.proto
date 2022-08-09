@@ -27,7 +27,7 @@ message GetUserResponse {
 }
 
 message ListUsersRequest {
-    int64 numUsers = 1;
+    int64 num_users = 1;
     int64 page = 2;
 }
 
@@ -44,11 +44,11 @@ message CreateUserResponse {
 }
 
 message GenerateUsersRequest {
-    int32 numUsers = 1;
+    int32 num_users = 1;
 }
 
 message GenerateUsersResponse {
-    int32 numUsers = 1;
+    int32 num_users = 1;
 }
 
 message UpdateUserRequest {
@@ -66,6 +66,12 @@ message DeleteUserRequest {
 
 message DeleteUserResponse {}
 
+message DeleteAllUsersRequest {}
+
+message DeleteAllUsersResponse {
+    int32 num_users = 1;
+}
+
 service UsersService {
     rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
     rpc ListUsers(ListUsersRequest) returns (stream ListUsersResponse) {}
@@ -73,4 +79,5 @@ service UsersService {
     rpc GenerateUsers(GenerateUsersRequest) returns (GenerateUsersResponse) {}
     rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
     rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+    rpc DeleteAllUsers(DeleteAllUsersRequest) returns (DeleteAllUsersResponse) {}
 }
