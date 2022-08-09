@@ -30,6 +30,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.Handle("/api/", otelhttp.NewHandler(http.StripPrefix("/api", api), "grpc", otelhttp.WithTracerProvider(otel.OpenTelTracer)))
+	mux.Handle("/", otelhttp.NewHandler(api, "grpc", otelhttp.WithTracerProvider(otel.OpenTelTracer)))
 
 	listenOn := ":" + os.Getenv("PORT")
 	fmt.Println("Listening on ", listenOn)

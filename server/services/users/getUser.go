@@ -12,6 +12,7 @@ import (
 func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetUserRequest]) (*connect_go.Response[users.GetUserResponse], error) {
 	userID := req.Msg.GetUserId()
 	fmt.Printf("Got request to for user with ID: %s\n", userID)
+	fmt.Println("Headers: ", req.Header())
 
 	user, err := collection.GetUser(ctx, userID)
 	if err != nil {

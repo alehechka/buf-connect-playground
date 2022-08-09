@@ -6,6 +6,7 @@ managed:
     except:
       - buf.build/googleapis/googleapis
 plugins:
+  # Go
   - remote: buf.build/protocolbuffers/plugins/go:v1.28.0-1
     out: ../server/proto/gen
     opt:
@@ -17,6 +18,13 @@ plugins:
       - paths=source_relative
       - require_unimplemented_servers=true
 
+  - remote: buf.build/grpc/plugins/go:v1.2.0-1
+    out: ../server/proto/gen
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=true
+
+  # Typescript
   - remote: buf.build/bufbuild/plugins/es:v0.0.10-1
     out: ../client/src/proto/gen
     opt:
