@@ -21,13 +21,11 @@ func (s *server) ListUsers(ctx context.Context, req *connect_go.Request[users.Li
 
 	go collection.ListItems(ctx, numUsers, page, userChan, errChan)
 
-	go func() {
-		for user := range userChan {
-			if err := stream.Send(&users.ListUsersResponse{User: user}); err != nil {
-				errChan <- err
-			}
+	for user := range userChan {
+		if err := stream.Send(&users.ListUsersResponse{User: user}); err != nil {
+			errChan <- err
 		}
-	}()
+	}
 
 	err := <-errChan
 	if err != nil && errors.Is(err, database.EOD) {
