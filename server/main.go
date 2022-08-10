@@ -10,8 +10,8 @@ import (
 	"github.com/alehechka/buf-connect-playground/utils"
 	"github.com/alehechka/buf-connect-playground/utils/database"
 	"github.com/alehechka/buf-connect-playground/utils/grpc"
+	"github.com/alehechka/buf-connect-playground/utils/middleware"
 	"github.com/alehechka/buf-connect-playground/utils/otel"
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -25,12 +25,17 @@ func main() {
 	utils.Check(err)
 	defer disconnect()
 
-	api := http.NewServeMux()
-	api.Handle(usersv1connect.NewUsersServiceHandler(users.NewServer()))
+	api := middleware.ServeConnect(usersv1connect.NewUsersServiceHandler(users.NewServer()))
+	fs := http.FileServer(http.Dir("./client"))
+	otelServiceName := os.Getenv("OTEL_SERVICE_NAME")
 
 	mux := http.NewServeMux()
-	mux.Handle("/api/", otelhttp.NewHandler(http.StripPrefix("/api", api), "grpc", otelhttp.WithTracerProvider(otel.OpenTelTracer)))
-	mux.Handle("/", otelhttp.NewHandler(api, "grpc", otelhttp.WithTracerProvider(otel.OpenTelTracer)))
+
+	// serves default grpc endpoint and falls back to serving client
+	mux.Handle("/", middleware.AttachOpenTelemetry(middleware.AttachConnectFallback(api, fs), otelServiceName))
+
+	// serves `/api/` prefixed grpc endpoint for client
+	mux.Handle("/api/", middleware.AttachOpenTelemetry(http.StripPrefix("/api", api), otelServiceName))
 
 	listenOn := ":" + os.Getenv("PORT")
 	fmt.Println("Listening on ", listenOn)
