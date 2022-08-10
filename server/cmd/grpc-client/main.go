@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/alehechka/buf-connect-playground/cmd"
 	usersv1 "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
 	"google.golang.org/grpc"
 )
@@ -16,7 +17,7 @@ func main() {
 	}
 
 	client := usersv1.NewUsersServiceClient(conn)
-	user, err := client.GetUser(context.Background(), &usersv1.GetUserRequest{UserId: "62f2c57bd5061f85ee13f9b1"})
+	user, err := client.GetUser(context.Background(), &usersv1.GetUserRequest{UserId: cmd.UserID})
 	if err != nil {
 		fmt.Println(err.Error())
 		return
