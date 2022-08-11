@@ -7,7 +7,7 @@ package usersv1connect
 import (
 	context "context"
 	errors "errors"
-	v1 "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
+	v1 "buf-connect-playground/proto/gen/users/v1"
 	connect_go "github.com/bufbuild/connect-go"
 	http "net/http"
 	strings "strings"

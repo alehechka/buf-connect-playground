@@ -5,9 +5,12 @@ import (
 	"errors"
 	"fmt"
 
-	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
-	"github.com/alehechka/buf-connect-playground/services/users/collection"
-	"github.com/alehechka/buf-connect-playground/utils/database"
+	users "buf-connect-playground/proto/gen/users/v1"
+
+	"buf-connect-playground/services/users/collection"
+
+	"buf-connect-playground/utils/database"
+
 	connect_go "github.com/bufbuild/connect-go"
 )
 

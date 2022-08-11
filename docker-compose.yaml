@@ -14,6 +14,9 @@ services:
       dockerfile: Dockerfile.local
       context: server/
     container_name: server
+    depends_on:
+      - otel-collector
+      - mongo
     networks:
       - database
       - backend
@@ -25,6 +28,35 @@ services:
       - 3000:3001
     volumes:
       - ./server:/app
+
+  grpc-cmd:
+    build:
+      dockerfile: Dockerfile.cmd
+      context: server/
+    container_name: grpc-cmd
+    depends_on:
+      - server
+      - otel-collector
+    networks:
+      - backend
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: 'http://otel-collector:4317'
+      OTEL_SERVICE_NAME: buf-connect-playground/grpc-cmd
+
+  connect-cmd:
+    build:
+      dockerfile: Dockerfile.cmd
+      context: server/
+    command: go run cmd/connect-client/main.go
+    container_name: connect-cmd
+    depends_on:
+      - server
+      - otel-collector
+    networks:
+      - backend
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: 'http://otel-collector:4317'
+      OTEL_SERVICE_NAME: buf-connect-playground/connect-cmd
 
   client:
     build:
@@ -52,6 +84,8 @@ services:
       - backend
     env_file:
       - .secret.env
+    ports:
+      - 4317:4317
 
 networks:
   database:

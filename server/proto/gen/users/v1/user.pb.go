@@ -7,7 +7,7 @@
 package usersv1
 
 import (
-	_type "github.com/alehechka/buf-connect-playground/proto/gen/google/type"
+	_type "buf-connect-playground/proto/gen/google/type"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

@@ -35,3 +35,13 @@ func ServeConnect(path string, handler http.Handler) *http.ServeMux {
 	mux.Handle(path, handler)
 	return mux
 }
+
+func AttachConnect(mux *http.ServeMux) func(path string, handler http.Handler) {
+	return func(path string, handler http.Handler) {
+		if mux == nil {
+			mux = http.NewServeMux()
+		}
+
+		mux.Handle(path, handler)
+	}
+}

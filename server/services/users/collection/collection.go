@@ -1,7 +1,8 @@
 package collection
 
 import (
-	"github.com/alehechka/buf-connect-playground/utils/database"
+	"buf-connect-playground/utils/database"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

@@ -4,13 +4,22 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/alehechka/buf-connect-playground/cmd"
-	usersv1 "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
+	"buf-connect-playground/cmd"
+	"buf-connect-playground/utils"
+	"buf-connect-playground/utils/otel"
+
+	usersv1 "buf-connect-playground/proto/gen/users/v1"
+
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	conn, err := grpc.Dial("127.0.0.1:3000", grpc.WithInsecure())
+	shutdownTracer, err := otel.InitializeOpenTelTracer()
+	utils.Check(err)
+	defer shutdownTracer()
+
+	conn, err := grpc.Dial(cmd.GrpcServerHost, ClientDialOptions()...)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -24,4 +33,12 @@ func main() {
 	}
 	fmt.Println(user)
 
+}
+
+func ClientDialOptions() []grpc.DialOption {
+	return []grpc.DialOption{
+		grpc.WithInsecure(),
+		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor(otelgrpc.WithTracerProvider(otel.OpenTelTracer))),
+		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor(otelgrpc.WithTracerProvider(otel.OpenTelTracer))),
+	}
 }

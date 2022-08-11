@@ -4,15 +4,23 @@ import (
 	context "context"
 	"fmt"
 
-	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
-	"github.com/alehechka/buf-connect-playground/services/users/collection"
+	users "buf-connect-playground/proto/gen/users/v1"
+
+	"buf-connect-playground/services/users/collection"
+
+	"buf-connect-playground/utils/otel"
+
 	connect_go "github.com/bufbuild/connect-go"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetUserRequest]) (*connect_go.Response[users.GetUserResponse], error) {
+	ctx, span := otel.StartSpan(ctx)
+	defer span.End()
+
 	userID := req.Msg.GetUserId()
 	fmt.Printf("Got request to for user with ID: %s\n", userID)
-	fmt.Println("Headers: ", req.Header())
+	span.SetAttributes(attribute.String("attributes.userId", userID))
 
 	user, err := collection.GetUser(ctx, userID)
 	if err != nil {

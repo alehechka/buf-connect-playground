@@ -1,7 +1,7 @@
 package users
 
 import (
-	"github.com/alehechka/buf-connect-playground/proto/gen/users/v1/usersv1connect"
+	"buf-connect-playground/proto/gen/users/v1/usersv1connect"
 )
 
 type server struct {

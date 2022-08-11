@@ -1,8 +1,10 @@
 package collection
 
 import (
-	_type "github.com/alehechka/buf-connect-playground/proto/gen/google/type"
-	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
+	_type "buf-connect-playground/proto/gen/google/type"
+
+	users "buf-connect-playground/proto/gen/users/v1"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

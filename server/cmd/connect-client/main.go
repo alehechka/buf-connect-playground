@@ -5,14 +5,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/alehechka/buf-connect-playground/cmd"
-	usersv1 "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
-	"github.com/alehechka/buf-connect-playground/proto/gen/users/v1/usersv1connect"
+	"buf-connect-playground/cmd"
+
+	usersv1 "buf-connect-playground/proto/gen/users/v1"
+
+	"buf-connect-playground/proto/gen/users/v1/usersv1connect"
+
 	connect_go "github.com/bufbuild/connect-go"
 )
 
 func main() {
-	client := usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://localhost:3000/api")
+	client := usersv1connect.NewUsersServiceClient(http.DefaultClient, cmd.ConnectServerHost)
 	res, err := client.GetUser(context.Background(), connect_go.NewRequest(&usersv1.GetUserRequest{UserId: cmd.UserID}))
 
 	if err != nil {

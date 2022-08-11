@@ -3,7 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/alehechka/buf-connect-playground/utils/otel"
+	"buf-connect-playground/utils/otel"
+
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 

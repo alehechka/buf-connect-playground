@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/alehechka/buf-connect-playground/proto/gen
+    default: buf-connect-playground/proto/gen
     except:
       - buf.build/googleapis/googleapis
 plugins:

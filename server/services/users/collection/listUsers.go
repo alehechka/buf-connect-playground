@@ -3,8 +3,10 @@ package collection
 import (
 	"context"
 
-	users "github.com/alehechka/buf-connect-playground/proto/gen/users/v1"
-	"github.com/alehechka/buf-connect-playground/utils/database"
+	users "buf-connect-playground/proto/gen/users/v1"
+
+	"buf-connect-playground/utils/database"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
