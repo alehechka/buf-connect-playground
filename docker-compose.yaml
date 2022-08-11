@@ -11,7 +11,8 @@ services:
 
   server:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
+      context: server/
     container_name: server
     networks:
       - database
@@ -20,9 +21,25 @@ services:
       MONGODB_CONNECTION_STRING: 'mongodb://mongo:27017/'
       OTEL_EXPORTER_OTLP_ENDPOINT: 'http://otel-collector:4317'
       OTEL_SERVICE_NAME: buf-connect-playground/server
-      PORT: 3000
     ports:
-      - 3000:3000
+      - 3000:3001
+    volumes:
+      - ./server:/app
+
+  client:
+    build:
+      dockerfile: Dockerfile.local
+      context: client/
+    container_name: client
+    depends_on:
+      - server
+    networks:
+      - backend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client:/app
+      - /app/node_modules/
 
   # Collectors
   otel-collector:
