@@ -22,6 +22,8 @@ func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetU
 	fmt.Printf("Got request to for user with ID: %s\n", userID)
 	span.SetAttributes(attribute.String("attributes.userId", userID))
 
+	fmt.Println(req.Header())
+
 	user, err := collection.GetUser(ctx, userID)
 	if err != nil {
 		return nil, connect_go.NewError(connect_go.CodeNotFound, err)

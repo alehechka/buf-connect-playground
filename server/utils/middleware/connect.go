@@ -7,6 +7,8 @@ var contentTypes = []string{
 	"application/grpc",
 	"application/json",
 	"application/connect+json",
+	"application/grpc+proto",
+	"application/grpc-web+proto",
 }
 
 func containsHeader(header string, headers []string) bool {
