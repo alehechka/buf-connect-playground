@@ -20,12 +20,12 @@ func GetUser(ctx context.Context, id string) (*users.User, error) {
 		return nil, err
 	}
 
-	res := userCollection().FindOne(ctx, user{ID: oid})
+	res := userCollection().FindOne(ctx, RemoteUser{ID: oid})
 	if res.Err() != nil {
 		return nil, res.Err()
 	}
 
-	internalUser := user{}
-	err = res.Decode(&internalUser)
-	return internalUser.User(), err
+	user := RemoteUser{}
+	err = res.Decode(&user)
+	return user.GetUser(), err
 }

@@ -24,14 +24,14 @@ func ListItems(ctx context.Context, numUsers int64, page int64, userChan chan<- 
 	defer cursor.Close(ctx)
 
 	for cursor.Next(ctx) {
-		internalUser := user{}
-		err = cursor.Decode(&internalUser)
+		user := RemoteUser{}
+		err = cursor.Decode(&user)
 		if err != nil {
 			errChan <- err
 			return
 		}
 
-		userChan <- internalUser.User()
+		userChan <- user.GetUser()
 	}
 
 	errChan <- database.EOD
