@@ -10,7 +10,7 @@ import (
 )
 
 func CreateUser(ctx context.Context, user *users.User) (id primitive.ObjectID, err error) {
-	createUser := RemoteUser{User: user}
+	createUser := GetNewRemoteUser(user)
 
 	res, err := userCollection().InsertOne(ctx, createUser)
 	if err != nil {
@@ -25,7 +25,7 @@ func BatchCreateUsers(ctx context.Context, users []*users.User) (inserted int, e
 	operations := make([]mongo.WriteModel, 0)
 	for _, user := range users {
 		operations = append(operations, &mongo.InsertOneModel{
-			Document: RemoteUser{User: user},
+			Document: GetNewRemoteUser(user),
 		})
 	}
 
