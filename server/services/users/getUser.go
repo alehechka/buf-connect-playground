@@ -12,17 +12,20 @@ import (
 
 	connect_go "github.com/bufbuild/connect-go"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func (s *server) GetUser(ctx context.Context, req *connect_go.Request[users.GetUserRequest]) (*connect_go.Response[users.GetUserResponse], error) {
+	fmt.Printf("%#v\n", req.Header())
+	spanCtx := trace.SpanContextFromContext(ctx)
+	fmt.Println(spanCtx.TraceID())
+
 	ctx, span := otel.StartSpan(ctx)
 	defer span.End()
 
 	userID := req.Msg.GetUserId()
 	fmt.Printf("Got request to for user with ID: %s\n", userID)
 	span.SetAttributes(attribute.String("attributes.userId", userID))
-
-	fmt.Println(req.Header())
 
 	user, err := collection.GetUser(ctx, userID)
 	if err != nil {

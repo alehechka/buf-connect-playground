@@ -20,6 +20,8 @@ import (
 
 	"buf-connect-playground/utils/otel"
 
+	"github.com/bufbuild/connect-go"
+	otelconnect "github.com/bufbuild/connect-opentelemetry-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -50,9 +52,10 @@ func NewHandler() *Handler {
 	router.GET("/rest/hello", func(ctx *gin.Context) { ctx.Data(http.StatusOK, "text/plain", []byte("world")) })
 	router.POST("/rest/generate/:numUsers", users.GenerateUsers)
 
-	api := middleware.ServeConnect(usersv1connect.NewUsersServiceHandler(users.NewServer()))
+	api := middleware.ServeConnect(usersv1connect.NewUsersServiceHandler(
+		users.NewServer(),
+		connect.WithInterceptors(otelconnect.NewInterceptor(otelconnect.WithTracerProvider(otel.OpenTelTracer), otelconnect.WithTraceRequestHeader([]string{"traceparent"}...)))))
 	fs := http.FileServer(http.Dir("./client"))
-	otelServiceName := os.Getenv("OTEL_SERVICE_NAME")
 
 	mux := http.NewServeMux()
 
@@ -62,7 +65,7 @@ func NewHandler() *Handler {
 	// serves `/api/` prefixed grpc endpoint for client
 	mux.Handle("/api/", http.StripPrefix("/api", api))
 
-	grpcHandler := h2c.NewHandler(grpc.NewCORS().Handler(middleware.AttachOpenTelemetry(mux, otelServiceName)), &http2.Server{})
+	grpcHandler := h2c.NewHandler(grpc.NewCORS().Handler(mux), &http2.Server{})
 
 	return &Handler{
 		ginHandler:  router,
