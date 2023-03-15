@@ -54,7 +54,10 @@ func NewHandler() *Handler {
 
 	api := middleware.ServeConnect(usersv1connect.NewUsersServiceHandler(
 		users.NewServer(),
-		connect.WithInterceptors(otelconnect.NewInterceptor(otelconnect.WithTracerProvider(otel.OpenTelTracer), otelconnect.WithTraceRequestHeader([]string{"traceparent"}...)))))
+		connect.WithInterceptors(otelconnect.NewInterceptor(
+			otelconnect.WithTracerProvider(otel.OpenTelTracer),
+			otelconnect.WithTraceRequestHeader([]string{"traceparent"}...),
+			otelconnect.WithTrustRemote()))))
 	fs := http.FileServer(http.Dir("./client"))
 
 	mux := http.NewServeMux()
